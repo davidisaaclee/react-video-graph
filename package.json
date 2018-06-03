@@ -1,0 +1,43 @@
+{
+  "name": "@davidisaaclee/react-routing-matrix",
+  "version": "1.0.0",
+  "main": "dist/RoutingMatrix.js",
+  "types": "dist/RoutingMatrix.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsc",
+    "preprocess": "npm run build",
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@storybook/addon-actions": "^3.4.6",
+    "@storybook/react": "^4.0.0-alpha.8",
+    "@types/lodash": "^4.14.109",
+    "@types/react": "^16.3.16",
+    "@types/storybook__addon-actions": "^3.0.3",
+    "@types/storybook__react": "^3.0.7",
+    "awesome-typescript-loader": "^5.0.0",
+    "babel-core": "^6.26.3",
+    "lodash": "^4.17.10",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.9.1"
+  },
+  "peerDependencies": {
+    "@types/react": "^16.3.16",
+    "react": "^16.4.0"
+  },
+  "dependencies": {
+    "video-graph": "/Users/david/Documents/Drawer/packages/video-graph"
+  }
+}
