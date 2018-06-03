@@ -1,28 +1,17 @@
 import * as React from 'react';
 import { storiesOf } from '@storybook/react';
-import { keyBy } from 'lodash';
-import { 
-	VideoGraph as VideoGraphModel, createProgramWithFragmentShader,
-	UniformSpecification
-} from 'video-graph';
+import { VideoGraph as VideoGraphModel } from 'video-graph';
 import VideoGraph from '../src/VideoGraph';
-import constantFragmentShader from './shaders/constant';
-import oscillatorShader from './shaders/oscillator';
+import createOscillatorModGraph from './graphs/oscillator-mod';
+import uniformDictFromArray from './utility/uniformDictFromArray';
 
 storiesOf('VideoGraph', module)
 	.add('basic', () => 
 		e(App, {}, null))
 
-
 const e = React.createElement;
 
 const CANVAS_SIZE = { x: 500, y: 500 };
-
-function uniformDictFromArray(
-	uniforms: UniformSpecification[]
-): { [iden: string]: UniformSpecification } {
-	return keyBy(uniforms, s => s.identifier);
-}
 
 interface State {
 	videoGraph: VideoGraphModel;
@@ -62,66 +51,6 @@ class App extends React.Component<{}, State> {
 		}
 
 		window.requestAnimationFrame(() => this.frame());
-	}
-
-	private createGraph(gl: WebGLRenderingContext): VideoGraphModel {
-		return {
-			nodes: {
-				'constant': {
-					program: createProgramWithFragmentShader(gl, constantFragmentShader),
-					uniforms: uniformDictFromArray([
-						{
-							identifier: 'value',
-							value: { type: '3f', data: [1, 0, 0] }
-						}
-					])
-				},
-				
-				'oscillator': {
-					program: createProgramWithFragmentShader(gl, oscillatorShader),
-					uniforms: uniformDictFromArray(
-						[
-							{
-								identifier: 'frequency',
-								value: { type: 'f', data: this.state.oscFreq }
-							},
-						])
-				},
-
-				'lfo': {
-					program: createProgramWithFragmentShader(gl, oscillatorShader),
-					uniforms: uniformDictFromArray(
-						[
-							{
-								identifier: 'frequency',
-								value: { type: 'f', data: this.state.lfoFreq }
-							},
-						])
-				},
-
-			},
-			edges: {
-				/*
-				'osc.rotation <- constant': {
-					src: 'oscillator',
-					dst: 'constant',
-					metadata: { uniformIdentifier: 'rotationTheta' }
-				},
-				*/
-
-				'osc.rotation <- lfo': {
-					src: 'oscillator',
-					dst: 'lfo',
-					metadata: { uniformIdentifier: 'rotationTheta' }
-				},
-
-				'lfo.rotation <- constant': {
-					src: 'lfo',
-					dst: 'constant',
-					metadata: { uniformIdentifier: 'rotationTheta' }
-				},
-			}
-		};
 	}
 
 	public componentDidMount() {
@@ -183,7 +112,11 @@ class App extends React.Component<{}, State> {
 					if (gl != null) {
 						this.gl = gl;
 						this.setState({
-							videoGraph: this.createGraph(gl)
+							videoGraph: createOscillatorModGraph(
+								gl,
+								this.state.oscFreq,
+								this.state.lfoFreq,
+							),
 						});
 					}
 				},
