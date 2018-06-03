@@ -2,7 +2,8 @@ import * as React from 'react';
 import {
 	VideoGraph as VideoGraphModel,
 	UniformSpecification,
-	renderGraph, setup
+	RenderCache,
+	renderGraph, setup,
 } from 'video-graph';
 
 const e = React.createElement;
@@ -23,6 +24,7 @@ interface State {
 export default class VideoGraph extends React.Component<Props, State> {
 
 	private gl: WebGLRenderingContext | null = null;
+	private cache: RenderCache = { textures: {}, framebuffers: {} };
 
 	private updateRef(canvas: HTMLElement | null) {
 		if (canvas == null) {
@@ -57,7 +59,9 @@ export default class VideoGraph extends React.Component<Props, State> {
 				this.gl,
 				graph,
 				runtimeUniforms,
-				outputNodeKey);
+				outputNodeKey,
+				this.cache,
+			);
 		}
 
 		return e('canvas',

@@ -40,7 +40,7 @@ class App extends React.Component<{}, State> {
 			edges: {}
 		},
 		oscFreq: 10,
-		lfoFreq: 0.5,
+		lfoFreq: 0.7,
 		fps: 60,
 		frameIndex: 0,
 		startTime: Date.now(),
