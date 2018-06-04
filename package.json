@@ -1,8 +1,8 @@
 {
-  "name": "@davidisaaclee/react-routing-matrix",
+  "name": "@davidisaaclee/react-video-graph",
   "version": "1.0.0",
-  "main": "dist/RoutingMatrix.js",
-  "types": "dist/RoutingMatrix.d.ts",
+  "main": "dist/VideoGraph.js",
+  "types": "dist/VideoGraph.d.ts",
   "files": [
     "dist",
     "src"
