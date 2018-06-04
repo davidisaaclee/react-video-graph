@@ -38,6 +38,6 @@
     "react": "^16.4.0"
   },
   "dependencies": {
-    "video-graph": "/Users/david/Documents/Drawer/packages/video-graph"
+    "@davidisaaclee/video-graph": "/Users/david/Documents/Drawer/packages/video-graph"
   }
 }

@@ -4,7 +4,7 @@ import {
 	UniformSpecification,
 	RenderCache,
 	renderGraph, setup,
-} from 'video-graph';
+} from '@davidisaaclee/video-graph';
 
 const e = React.createElement;
 
