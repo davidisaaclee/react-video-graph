@@ -1,6 +1,6 @@
 {
   "name": "@davidisaaclee/react-video-graph",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "dist/VideoGraph.js",
   "types": "dist/VideoGraph.d.ts",
   "files": [
@@ -17,7 +17,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "React component for rendering fragment shader graphs",
   "devDependencies": {
     "@storybook/addon-actions": "^3.4.6",
     "@storybook/react": "^4.0.0-alpha.8",
@@ -38,6 +38,6 @@
     "react": "^16.4.0"
   },
   "dependencies": {
-    "@davidisaaclee/video-graph": "/Users/david/Documents/Drawer/packages/video-graph"
+    "@davidisaaclee/video-graph": "^0.1.0"
   }
 }
