@@ -8,8 +8,9 @@ export default function createGraph(
 	oscFreq: number,
 	lfoFreq: number,
 ): VideoGraph {
+	// TODO: Create graph using public API
 	return {
-		nodes: {
+		_nodes: {
 			'constant': {
 				program: createProgramWithFragmentShader(gl, constantFragmentShader),
 				uniforms: uniformDictFromArray([
@@ -43,7 +44,7 @@ export default function createGraph(
 			},
 
 		},
-		edges: {
+		_edges: {
 			/*
 				'osc.rotation <- constant': {
 					src: 'oscillator',

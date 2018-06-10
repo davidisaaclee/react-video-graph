@@ -25,8 +25,8 @@ interface State {
 class App extends React.Component<{}, State> {
 	state = {
 		videoGraph: {
-			nodes: {},
-			edges: {}
+			_nodes: {},
+			_edges: {}
 		},
 		oscFreq: 10,
 		lfoFreq: 0.7,
