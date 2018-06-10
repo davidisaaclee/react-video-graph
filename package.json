@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc",
-    "preprocess": "npm run build",
+    "preprocess": "npm run clean && npm run build",
     "storybook": "start-storybook -p 9001 -c .storybook",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
