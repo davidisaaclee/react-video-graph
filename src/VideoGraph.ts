@@ -12,6 +12,9 @@ interface OwnProps {
 	graph: VideoGraphModel;
 	outputNodeKey: string | null;
 	runtimeUniforms: { [nodeKey: string]: { [uniformKey: string]: UniformSpecification } };
+	// How many items in the render cache's circular buffer?
+	// Defaults to 1.
+	cacheBufferSize?: number;
 
 	glRef: (gl: WebGLRenderingContext | null) => any;
 }
@@ -24,7 +27,49 @@ interface State {
 export default class VideoGraph extends React.Component<Props, State> {
 
 	private gl: WebGLRenderingContext | null = null;
-	private cache: RenderCache = { textures: {}, framebuffers: {} };
+	private cache: RenderCache[] = [];
+	private nextCacheIndex: number = 0;
+
+	public componentDidMount() {
+		const cacheBufferSize = this.props.cacheBufferSize == null
+			? 1
+			: this.props.cacheBufferSize;
+
+		if (cacheBufferSize <= 0) {
+			throw new Error("Cache buffer length cannot be less than 1");
+		}
+
+		for (let i = 0; i < cacheBufferSize; i++) {
+			this.cache.push({ textures: {}, framebuffers: {} });
+		}
+	}
+
+	public render() {
+		const { graph, outputNodeKey, glRef, runtimeUniforms, ...canvasProps } = this.props;
+
+		if (outputNodeKey != null && this.gl != null) {
+			const readCacheIndex = this.nextCacheIndex;
+			this.nextCacheIndex = (this.nextCacheIndex + 1) % this.cache.length;
+			const writeCacheIndex = this.nextCacheIndex;
+
+			renderGraph(
+				this.gl,
+				graph,
+				runtimeUniforms,
+				outputNodeKey,
+				this.cache[readCacheIndex],
+				this.cache[writeCacheIndex],
+			);
+
+		}
+
+		return e('canvas',
+			{
+				ref: elm => this.updateRef(elm),
+				...canvasProps
+			},
+			null);
+	}
 
 	private updateRef(canvas: HTMLElement | null) {
 		if (canvas == null) {
@@ -51,25 +96,5 @@ export default class VideoGraph extends React.Component<Props, State> {
 		this.gl = gl;
 	}
 
-	public render() {
-		const { graph, outputNodeKey, glRef, runtimeUniforms, ...canvasProps } = this.props;
-
-		if (outputNodeKey != null && this.gl != null) {
-			renderGraph(
-				this.gl,
-				graph,
-				runtimeUniforms,
-				outputNodeKey,
-				this.cache,
-			);
-		}
-
-		return e('canvas',
-			{
-				ref: elm => this.updateRef(elm),
-				...canvasProps
-			},
-			null);
-	}
 }
 
