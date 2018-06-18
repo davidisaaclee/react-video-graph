@@ -45,7 +45,10 @@ export default class VideoGraph extends React.Component<Props, State> {
 	}
 
 	public render() {
-		const { graph, outputNodeKey, glRef, runtimeUniforms, ...canvasProps } = this.props;
+		const {
+			graph, outputNodeKey, glRef, runtimeUniforms, cacheBufferSize,
+			...canvasProps 
+		} = this.props;
 
 		if (outputNodeKey != null && this.gl != null) {
 			const readCacheIndex = this.nextCacheIndex;
