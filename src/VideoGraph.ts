@@ -31,17 +31,12 @@ export default class VideoGraph extends React.Component<Props, State> {
 	private nextCacheIndex: number = 0;
 
 	public componentDidMount() {
-		const cacheBufferSize = this.props.cacheBufferSize == null
-			? 1
-			: this.props.cacheBufferSize;
+		this.resetCaches();
+		window.addEventListener('resize', this.resetCaches);
+	}
 
-		if (cacheBufferSize <= 0) {
-			throw new Error("Cache buffer length cannot be less than 1");
-		}
-
-		for (let i = 0; i < cacheBufferSize; i++) {
-			this.cache.push({ textures: {}, framebuffers: {} });
-		}
+	public componentWillUnmount() {
+		window.removeEventListener('resize', this.resetCaches);
 	}
 
 	public render() {
@@ -97,6 +92,21 @@ export default class VideoGraph extends React.Component<Props, State> {
 		setup(gl);
 
 		this.gl = gl;
+	}
+
+	private resetCaches = () => {
+		const cacheBufferSize = this.props.cacheBufferSize == null
+			? 1
+			: this.props.cacheBufferSize;
+
+		if (cacheBufferSize <= 0) {
+			throw new Error("Cache buffer length cannot be less than 1");
+		}
+
+		this.cache = [];
+		for (let i = 0; i < cacheBufferSize; i++) {
+			this.cache.push({ textures: {}, framebuffers: {} });
+		}
 	}
 
 }
