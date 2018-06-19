@@ -38,8 +38,8 @@
     lodash "^4.17.10"
 
 "@davidisaaclee/video-graph@^0.2.0":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@davidisaaclee/video-graph/-/video-graph-0.2.1.tgz#9ce4df5b3760bb5958d1131b4db06b0f66dbfeb6"
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@davidisaaclee/video-graph/-/video-graph-0.2.2.tgz#904e8dc7524baee8dc0e3141e3079a3a4fdd15ca"
   dependencies:
     "@davidisaaclee/graph" "^0.1.0"
     gl-matrix "^2.6.1"
