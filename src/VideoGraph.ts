@@ -26,6 +26,7 @@ interface State {
 
 export default class VideoGraph extends React.Component<Props, State> {
 
+	private canvas: HTMLElement | null = null;
 	private gl: WebGLRenderingContext | null = null;
 	private cache: RenderCache[] = [];
 	private nextCacheIndex: number = 0;
@@ -74,6 +75,12 @@ export default class VideoGraph extends React.Component<Props, State> {
 			this.props.glRef(null);
 			return;
 		}
+
+		if (this.canvas === canvas) {
+			return;
+		}
+
+		this.canvas = canvas;
 
 		if (!(canvas instanceof HTMLCanvasElement)) {
 			this.props.glRef(null);
