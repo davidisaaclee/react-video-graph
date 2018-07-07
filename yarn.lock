@@ -37,9 +37,9 @@
   dependencies:
     lodash "^4.17.10"
 
-"@davidisaaclee/video-graph@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@davidisaaclee/video-graph/-/video-graph-0.4.0.tgz#a6a6773f8875c0e1f2a248e011253394c1b52e30"
+"@davidisaaclee/video-graph@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@davidisaaclee/video-graph/-/video-graph-0.5.0.tgz#efe147cf3915da1b34f6e826f70088d8f02e0e3c"
   dependencies:
     "@davidisaaclee/graph" "^0.1.0"
     gl-matrix "^2.6.1"
