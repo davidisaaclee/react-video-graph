@@ -15,6 +15,7 @@ interface OwnProps {
 	// How many items in the render cache's circular buffer?
 	// Defaults to 1.
 	cacheBufferSize?: number;
+	realToCSSPixelRatio?: number;
 
 	glRef: (gl: WebGLRenderingContext | null) => any;
 }
@@ -96,7 +97,7 @@ export default class VideoGraph extends React.Component<Props, State> {
 
 		this.props.glRef(gl);
 
-		setup(gl);
+		setup(gl, this.props.realToCSSPixelRatio);
 
 		this.gl = gl;
 	}
