@@ -43,7 +43,7 @@ export default class VideoGraph extends React.Component<Props, State> {
 
 	public render() {
 		const {
-			graph, outputNodeKey, glRef, runtimeUniforms, cacheBufferSize,
+			graph, outputNodeKey, glRef, runtimeUniforms, cacheBufferSize, realToCSSPixelRatio,
 			...canvasProps 
 		} = this.props;
 
