@@ -11,13 +11,11 @@ const e = React.createElement;
 interface OwnProps {
 	graph: VideoGraphModel;
 	outputNodeKey: string | null;
-	runtimeUniforms: { [nodeKey: string]: { [uniformKey: string]: UniformSpecification } };
-	// How many items in the render cache's circular buffer?
-	// Defaults to 1.
-	cacheBufferSize?: number;
 	realToCSSPixelRatio?: number;
 
 	glRef: (gl: WebGLRenderingContext | null) => any;
+	getReadTextureForNode: (nodeKey: string) => WebGLTexture;
+	getWriteTextureForNode: (nodeKey: string) => WebGLTexture;
 }
 
 type Props = OwnProps & React.HTMLAttributes<HTMLCanvasElement>;
@@ -29,36 +27,23 @@ export default class VideoGraph extends React.Component<Props, State> {
 
 	private canvas: HTMLElement | null = null;
 	private gl: WebGLRenderingContext | null = null;
-	private cache: RenderCache[] = [];
-	private nextCacheIndex: number = 0;
-
-	public componentDidMount() {
-		this.resetCaches();
-		window.addEventListener('resize', this.resetCaches);
-	}
-
-	public componentWillUnmount() {
-		window.removeEventListener('resize', this.resetCaches);
-	}
 
 	public render() {
 		const {
-			graph, outputNodeKey, glRef, runtimeUniforms, cacheBufferSize, realToCSSPixelRatio,
+			graph, outputNodeKey, glRef,
+			realToCSSPixelRatio,
+			getReadTextureForNode, getWriteTextureForNode,
 			...canvasProps 
 		} = this.props;
 
 		if (outputNodeKey != null && this.gl != null) {
-			const readCacheIndex = this.nextCacheIndex;
-			this.nextCacheIndex = (this.nextCacheIndex + 1) % this.cache.length;
-			const writeCacheIndex = this.nextCacheIndex;
-
 			renderGraph(
 				this.gl,
 				graph,
-				runtimeUniforms,
+				{},
 				outputNodeKey,
-				this.cache[readCacheIndex],
-				this.cache[writeCacheIndex],
+				getReadTextureForNode,
+				getWriteTextureForNode,
 			);
 
 		}
@@ -100,21 +85,6 @@ export default class VideoGraph extends React.Component<Props, State> {
 		setup(gl, this.props.realToCSSPixelRatio);
 
 		this.gl = gl;
-	}
-
-	private resetCaches = () => {
-		const cacheBufferSize = this.props.cacheBufferSize == null
-			? 1
-			: this.props.cacheBufferSize;
-
-		if (cacheBufferSize <= 0) {
-			throw new Error("Cache buffer length cannot be less than 1");
-		}
-
-		this.cache = [];
-		for (let i = 0; i < cacheBufferSize; i++) {
-			this.cache.push({ textures: {}, framebuffers: {} });
-		}
 	}
 
 }

@@ -38,6 +38,6 @@
     "react": "^16.4.0"
   },
   "dependencies": {
-    "@davidisaaclee/video-graph": "^0.6.0"
+    "@davidisaaclee/video-graph": "^1.0.0"
   }
 }
