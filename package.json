@@ -1,6 +1,6 @@
 {
   "name": "@davidisaaclee/react-video-graph",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "dist/VideoGraph.js",
   "types": "dist/VideoGraph.d.ts",
   "files": [
